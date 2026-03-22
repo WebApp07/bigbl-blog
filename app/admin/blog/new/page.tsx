@@ -1,15 +1,15 @@
-import { auth } from '@/lib/auth'
-import { redirect } from 'next/navigation'
-import { getAllCategories } from '@/lib/actions/blog.actions'
-import { BlogPostForm } from '@/components/blog/admin/blog-post-form'
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { getAllCategories } from "@/lib/actions/blog.actions";
+import { BlogPostForm } from "@/components/blog/admin/blog-post-form";
 
-export const metadata = { title: 'New Post – Admin' }
+export const metadata = { title: "New Post – Admin" };
 
 export default async function NewBlogPostPage() {
-  const session = await auth()
-  if (!session || session.user.role !== 'admin') redirect('/')
+  const session = await auth();
+  if (!session || session.user.role !== "admin") redirect("/");
 
-  const categories = await getAllCategories()
+  const categories = await getAllCategories();
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-white p-6 md:p-10">
@@ -18,5 +18,5 @@ export default async function NewBlogPostPage() {
         <BlogPostForm categories={categories} authorId={session.user.id!} />
       </div>
     </div>
-  )
+  );
 }
