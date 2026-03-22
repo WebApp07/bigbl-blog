@@ -1,109 +1,257 @@
-// /pages/return-policy.tsx
-import { Metadata } from "next";
 import Footer from "@/components/footer";
-import Head from "next/head";
 import Header from "@/components/shared/header";
+import type { Metadata } from "next";
+import Link from "next/link";
 
-// Define metadata for the page
 export const metadata: Metadata = {
-  title: "Return Policy - Bigbl",
+  title: "Refund Policy | Keyversely LLC",
   description:
-    "Return and Refund Policy for Bigbl Digital Products, including terms for refunds and returns.",
+    "Keyversely LLC offers a straightforward refund policy for all digital software licenses. If your key doesn't work, we replace it or refund you within 24 hours.",
+  alternates: { canonical: "https://www.actualkeys.com/refund-policy" },
+  robots: { index: true, follow: true },
 };
 
-export default function ReturnPolicy() {
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Refund Policy | Keyversely LLC",
+  url: "https://www.actualkeys.com/refund-policy",
+  inLanguage: "en-US",
+  publisher: {
+    "@type": "Organization",
+    name: "Keyversely LLC",
+    url: "https://www.actualkeys.com",
+  },
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.actualkeys.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Refund Policy",
+        item: "https://www.actualkeys.com/refund-policy",
+      },
+    ],
+  },
+};
+
+export default function RefundPolicyPage() {
   return (
-    <div className="bg-gray-50 min-h-screen text-gray-800">
-      <Head>
-        <title>Return Policy - Bigbl</title>
-        <meta
-          name="description"
-          content="Return and Refund Policy for Bigbl Digital Products"
-        />
-      </Head>
-      <main className="max-w-4xl mx-auto p-6 space-y-6">
-        <section className="space-y-4">
-          <p>
-            For information about our return and refund policies, please see the
-            details below.
-          </p>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <Header />
+      <main className="max-w-2xl mx-auto px-6 py-14">
+        {/* Breadcrumb */}
+        <nav
+          aria-label="Breadcrumb"
+          className="text-sm text-muted-foreground mb-8"
+        >
+          <Link href="/" className="text-primary hover:underline">
+            Home
+          </Link>
+          <span className="mx-2">›</span>
+          <span>Refund Policy</span>
+        </nav>
 
-          <p>
-            At Bigbl, our commitment is to prioritize our customers and go the
-            extra mile to assist you with any concerns. Customer satisfaction is
-            our top priority, and we take pride in delivering a 5-star support
-            service. We are dedicated to resolving any issues related to our
-            products, services, or your Bigbl needs.
-          </p>
+        <h1 className="text-4xl font-bold tracking-tight mb-2 text-foreground">
+          Refund Policy
+        </h1>
+        <p className="text-sm text-muted-foreground mb-10">
+          Keyversely LLC · Last updated: November 24, 2025
+        </p>
 
-          <p>
-            We encourage all customers to reach out to Bigbl support through
-            Live chat, tech ticket, or at{" "}
-            <a
-              href="mailto:Bigbl01@hotmail.com"
-              className="text-blue-600 underline"
-            >
-              Bigbl01@hotmail.com
-            </a>{" "}
-            for assistance, clarification, feedback, challenges, or help.
-          </p>
+        <hr className="border-border mb-10" />
 
-          <p>
-            We are determined to find solutions and ensure your complete
-            satisfaction with our service.
+        {/* Intro */}
+        <section className="mb-10">
+          <p className="text-base text-muted-foreground leading-relaxed mb-3">
+            We want every purchase you make at Keyversely to go smoothly. All of
+            our products are digital software licenses — there is no physical
+            item to return, and once a key is delivered to your inbox it cannot
+            be &quot;sent back.&quot; That said, we stand fully behind the
+            quality of what we sell, and our refund policy reflects that.
           </p>
-
-          <h2 className="text-xl font-semibold">Refunds</h2>
-          <p>
-            Prior to processing a refund, we kindly ask for the opportunity to
-            assist you. Contact our support via chat, tech ticket, or at{" "}
-            <a
-              href="mailto:Bigbl01@hotmail.com"
-              className="text-blue-600 underline"
-            >
-              Bigbl01@hotmail.com
-            </a>
-            , and please allow 24–72 hours for our Support Team to respond. We
-            strive to address your requests promptly.
-          </p>
-
-          <p>
-            Considering the instant download nature of digital media (software),
-            it is non-returnable. There is no “trial” or “grace period” after
-            purchasing any product, making all sales final. Once the software or
-            service is purchased, it cannot be returned. Consequently, refunds
-            cannot be provided.
-          </p>
-
-          <p>
-            A refund can be processed if the downloaded product from the website
-            was entirely damaged, non-functioning, or did not fulfill its
-            promises.
-          </p>
-
-          <p>
-            Refunds will not be granted if you choose not to use the purchased
-            products. While we stand behind our products and are committed to
-            assisting you with any issues, we also expect you to thoroughly
-            understand your purchase and its intended purpose.
+          <p className="text-base text-muted-foreground leading-relaxed">
+            If something goes wrong, we will make it right. That is our
+            commitment, and it is unconditional.
           </p>
         </section>
-      </main>
 
-      <div className="mt-10 text-center">
-        <p className="text-lg">
-          Still have questions?{" "}
-          <a
-            href="/contact"
-            className="text-blue-600 font-medium hover:underline"
-          >
-            Contact us
-          </a>{" "}
-          and we’ll get back to you as soon as possible.
+        {/* Eligible for refund */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold mb-4 text-foreground">
+            When You Are Eligible for a Refund
+          </h2>
+          <p className="text-base text-muted-foreground leading-relaxed mb-4">
+            You are entitled to a full refund or a free replacement key in any
+            of the following situations:
+          </p>
+          <ul className="space-y-3 list-disc pl-5 text-muted-foreground text-base">
+            <li className="leading-relaxed">
+              <span className="font-semibold text-foreground">
+                The key does not work.
+              </span>{" "}
+              If the activation key we delivered fails to activate the software
+              on a supported system, contact us and we will resolve it
+              immediately.
+            </li>
+            <li className="leading-relaxed">
+              <span className="font-semibold text-foreground">
+                You received the wrong product.
+              </span>{" "}
+              If the key you received is for a different product or version than
+              what you ordered, we will send the correct key or refund you in
+              full.
+            </li>
+            <li className="leading-relaxed">
+              <span className="font-semibold text-foreground">
+                The key was already used.
+              </span>{" "}
+              All keys we sell are verified before delivery. If you receive a
+              key that has already been activated by someone else, that is
+              entirely our responsibility and we will fix it.
+            </li>
+            <li className="leading-relaxed">
+              <span className="font-semibold text-foreground">
+                You never received your key.
+              </span>{" "}
+              If your key did not arrive by email within 30 minutes of payment
+              confirmation, contact us and we will resend it or issue a refund.
+            </li>
+          </ul>
+        </section>
+
+        {/* Not eligible */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold mb-4 text-foreground">
+            When Refunds Do Not Apply
+          </h2>
+          <p className="text-base text-muted-foreground leading-relaxed mb-4">
+            Because our products are digital and delivered instantly, we are
+            unable to offer refunds in the following situations:
+          </p>
+          <ul className="space-y-3 list-disc pl-5 text-muted-foreground text-base">
+            <li className="leading-relaxed">
+              The key has been successfully activated and is working as
+              described.
+            </li>
+            <li className="leading-relaxed">
+              You purchased the wrong product and the key has already been
+              activated.
+            </li>
+            <li className="leading-relaxed">
+              Your device or operating system does not meet the minimum
+              requirements for the software — please check compatibility before
+              purchasing.
+            </li>
+            <li className="leading-relaxed">
+              You changed your mind after the key was successfully delivered and
+              activated.
+            </li>
+          </ul>
+          <p className="text-base text-muted-foreground leading-relaxed mt-4">
+            If you are unsure whether a product is compatible with your system,
+            please contact us before purchasing — we are happy to help you
+            choose the right one.
+          </p>
+        </section>
+
+        {/* How to request */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold mb-4 text-foreground">
+            How to Request a Refund
+          </h2>
+          <p className="text-base text-muted-foreground leading-relaxed mb-3">
+            Email us at{" "}
+            <a
+              href="mailto:support@keyversely.com"
+              className="text-primary underline underline-offset-4 hover:opacity-80"
+            >
+              support@keyversely.com
+            </a>{" "}
+            with the following information:
+          </p>
+          <ul className="space-y-2 list-disc pl-5 text-muted-foreground text-base mb-4">
+            <li>Your order number or the email address used at checkout</li>
+            <li>The product you purchased</li>
+            <li>A brief description of the issue</li>
+            <li>A screenshot of the error (if applicable)</li>
+          </ul>
+          <p className="text-base text-muted-foreground leading-relaxed">
+            We respond to all refund requests within{" "}
+            <span className="font-semibold text-foreground">24 hours</span>,
+            Monday through Friday, 9:00 AM – 6:00 PM ET. Requests submitted over
+            the weekend will be handled the next business day.
+          </p>
+        </section>
+
+        {/* Refund method */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold mb-4 text-foreground">
+            How Refunds Are Issued
+          </h2>
+          <p className="text-base text-muted-foreground leading-relaxed mb-3">
+            Approved refunds are returned to the original payment method used at
+            checkout. Processing times vary depending on your bank or payment
+            provider, but typically appear within 3–7 business days.
+          </p>
+          <p className="text-base text-muted-foreground leading-relaxed">
+            In many cases we will offer a replacement key first — this is
+            usually the fastest resolution. If you would prefer a refund instead
+            of a replacement, just let us know and we will honor that.
+          </p>
+        </section>
+
+        {/* Contact */}
+        <section className="mb-10 rounded-xl border border-border bg-muted/40 p-7">
+          <h2 className="text-xl font-bold mb-3 text-foreground">Questions?</h2>
+          <p className="text-base text-muted-foreground leading-relaxed">
+            We are a small team and we read every message. If you have a
+            question about a purchase or are unsure whether your situation
+            qualifies, just reach out — we would rather talk it through than
+            leave you uncertain.
+          </p>
+          <div className="mt-4 space-y-1 text-sm text-muted-foreground">
+            <p>
+              <span className="font-semibold text-foreground">Email: </span>
+              <a
+                href="mailto:support@keyversely.com"
+                className="text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                support@keyversely.com
+              </a>
+            </p>
+            <p>
+              <span className="font-semibold text-foreground">Phone: </span>
+              <a
+                href="tel:+13077856160"
+                className="text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                (307) 785-6160
+              </a>
+            </p>
+            <p>
+              <span className="font-semibold text-foreground">Hours: </span>
+              Monday – Friday, 9:00 AM – 6:00 PM ET
+            </p>
+          </div>
+        </section>
+
+        <hr className="border-border mb-6" />
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Keyversely LLC · Entity ID 2025-001824045 · Wyoming, United States
         </p>
-      </div>
-
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }
