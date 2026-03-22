@@ -1,97 +1,139 @@
-import React from "react";
+import type { Metadata } from "next";
+import AboutHero from "./components/AboutHero";
+import AboutStory from "./components/AboutStory";
+import AboutWhatWeDo from "./components/AboutWhatWeDo";
+import AboutPromise from "./components/AboutPromise";
+import AboutBusinessInfo from "./components/AboutBusinessInfo";
+import AboutPolicies from "./components/AboutPolicies";
+import AboutFindUs from "./components/AboutFindUs";
+import AboutFooterNote from "./components/AboutFooterNote";
+import Header from "@/components/shared/header";
+import Footer from "@/components/footer";
 
+// ── SEO ───────────────────────────────────────────────────────
+export const metadata: Metadata = {
+  title:
+    "About Keyversely LLC | Genuine Software Licenses at Affordable Prices",
+  description:
+    "Keyversely LLC is a US-registered software retailer selling genuine Windows, Office, and antivirus activation keys — delivered instantly by email. Verified Microsoft Marketplace partner.",
+  alternates: { canonical: "https://www.actualkeys.com/about-us" },
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    url: "https://www.actualkeys.com/about-us",
+    title:
+      "About Keyversely LLC | Genuine Software Licenses at Affordable Prices",
+    description:
+      "Keyversely LLC is a US-registered software retailer selling genuine Windows, Office, and antivirus activation keys — delivered instantly by email. Verified Microsoft Marketplace partner.",
+    images: [
+      {
+        url: "https://www.actualkeys.com/og-about.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    siteName: "Keyversely — actualkeys.com",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@Bigblkey",
+    title:
+      "About Keyversely LLC | Genuine Software Licenses at Affordable Prices",
+    description:
+      "Keyversely LLC is a US-registered software retailer selling genuine Windows, Office, and antivirus activation keys — delivered instantly by email. Verified Microsoft Marketplace partner.",
+    images: ["https://www.actualkeys.com/og-about.png"],
+  },
+};
+
+// ── JSON-LD ───────────────────────────────────────────────────
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Keyversely LLC",
+  legalName: "Keyversely LLC",
+  url: "https://www.actualkeys.com",
+  logo: "https://www.actualkeys.com/logo.png",
+  foundingDate: "2025",
+  description:
+    "Keyversely LLC is a US-registered software retailer selling genuine Windows, Office, and antivirus activation keys — delivered instantly by email.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "63 N Burritt Ave, Rm 100 PMB 1180",
+    addressLocality: "Buffalo",
+    addressRegion: "WY",
+    postalCode: "82834",
+    addressCountry: "US",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+1-307-785-6160",
+    email: "support@keyversely.com",
+    contactType: "customer support",
+    hoursAvailable: "Mo-Fr 09:00-18:00",
+    availableLanguage: "English",
+  },
+  sameAs: [
+    "https://www.instagram.com/Bigblkey/",
+    "https://www.trustpilot.com/review/actualkeys.com",
+    "https://marketplace.microsoft.com/en-us/marketplace/partner-dir/f2266aa5-5704-4384-ad55-100cf2c530cb/overview",
+  ],
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "About Keyversely LLC | Genuine Software Licenses at Affordable Prices",
+  url: "https://www.actualkeys.com/about-us",
+  inLanguage: "en-US",
+  publisher: {
+    "@type": "Organization",
+    name: "Keyversely LLC",
+    url: "https://www.actualkeys.com",
+  },
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.actualkeys.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "About Us",
+        item: "https://www.actualkeys.com/about-us",
+      },
+    ],
+  },
+};
+
+// ── Page ──────────────────────────────────────────────────────
 export default function AboutPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-12 space-y-8">
-      <section>
-        <h1 className="text-3xl font-bold mb-4">About Bigbl</h1>
-        <p className="text-gray-700">
-          Bigbl is a USA-based digital software store offering genuine software
-          licenses at competitive prices. We specialize in activation keys for
-          Windows, Microsoft Office, antivirus programs, and more — delivered
-          digitally via email. Bigbl is a USA-based digital software store
-          offering genuine software licenses at competitive prices. We
-          specialize in activation keys for Windows, Microsoft Office, antivirus
-          programs, and more — delivered digitally via email.
-        </p>
-        <p className="text-gray-700 mt-4">
-          We are committed to transparency and customer satisfaction. All our
-          licenses are sourced through verified distribution channels.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-semibold mb-2">
-          Customer Service Contact
-        </h2>
-        <ul className="text-gray-700 space-y-1">
-          <li>
-            <strong>Website:</strong>{" "}
-            <a href="https://www.Bigbl.com" className="text-blue-600 underline">
-              www.Bigbl.com
-            </a>
-          </li>
-          <li>
-            <strong>Email:</strong>{" "}
-            <a
-              href="mailto:Bigbl01@hotmail.com"
-              className="text-blue-600 underline"
-            >
-              Bigbl01@hotmail.com
-            </a>
-          </li>
-
-          <li>
-            <strong>Business Hours:</strong> Mon–Fri, 9:00 AM – 6:00 PM CET
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-semibold mb-2">Delivery & Refunds</h2>
-        <ul className="text-gray-700 space-y-1">
-          <li>
-            ✅ All software licenses are delivered via email within minutes
-            after purchase.
-          </li>
-          <li>
-            ✅ If your key doesn&apos;t work, we will replace it or refund you
-            within 24 hours.
-          </li>
-          <li>
-            ✅ Please see our{" "}
-            <a href="/refund-policy" className="text-blue-600 underline">
-              Refund Policy
-            </a>{" "}
-            and{" "}
-            <a href="/terms-of-service" className="text-blue-600 underline">
-              Terms of Service
-            </a>{" "}
-            for more info.
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-semibold mb-2">Follow Us</h2>
-        <div className="flex space-x-4 text-blue-600">
-          <a
-            href="https://www.instagram.com/Bigblkey/?next=%2F"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram
-          </a>
-
-          <a
-            href="https://www.trustpilot.com/review/Bigbl.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            trustpilot
-          </a>
-        </div>
-      </section>
-    </main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
+      <Header />
+      <main className="max-w-2xl mx-auto px-6 py-14">
+        <AboutHero />
+        <AboutStory />
+        <AboutWhatWeDo />
+        <AboutPromise />
+        <AboutBusinessInfo />
+        <AboutPolicies />
+        <AboutFindUs />
+        <AboutFooterNote />
+      </main>
+      <Footer />
+    </>
   );
 }
