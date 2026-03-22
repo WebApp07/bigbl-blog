@@ -8,7 +8,6 @@ const LINKS = [
   { href: "/help-center", label: "Help Center" },
   { href: "/refund-policy", label: "Refund Policy" },
   { href: "/contact", label: "Contact Us" },
-  { href: "/payment-methods", label: "Payment Methods" },
   { href: "/shipping-delivery-policy", label: "shipping Delivery Policy" },
   { href: "/return-policy", label: "Return Policy" },
 ];
