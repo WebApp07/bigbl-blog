@@ -15,6 +15,7 @@ import { auth } from "@/auth";
 import Rating from "@/components/shared/product/rating";
 import RelatedProducts from "@/components/RelatedProducts";
 import ProductFeatures from "@/components/shared/product/product-features";
+import { prisma } from "@/db/prisma";
 
 export const revalidate = 86400;
 
