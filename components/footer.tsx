@@ -9,7 +9,7 @@ const LINKS = [
   { href: "/refund-policy", label: "Refund Policy" },
   { href: "/contact", label: "Contact Us" },
   { href: "/payment-methods", label: "Payment Methods" },
-  { href: "/shipping-policy", label: "Shipping Policy" },
+  { href: "/shipping-delivery-policy", label: "shipping Delivery Policy" },
   { href: "/return-policy", label: "Return Policy" },
 ];
 
@@ -31,7 +31,8 @@ const Footer = () => {
         ))}
       </div>
       <div className="p-5 flex-center text-xs text-gray-500">
-        Developed By Bigbl © {currentYear} {APP_NAME}. All Rights Reserved.vdvdiiihiheihi
+        Developed By Bigbl © {currentYear} {APP_NAME}. All Rights
+        Reserved.vdvdiiihiheihi
       </div>
     </footer>
   );
