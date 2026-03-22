@@ -10,7 +10,6 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialoger,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
@@ -45,13 +44,13 @@ export function DeletePostButton({ postId, postTitle }: Props) {
       </AlertDialogTrigger>
 
       <AlertDialogContent className="bg-[#111113] border-white/10 text-white">
-        <AlertDialoger>
+        <AlertDialog>
           <AlertDialogTitle>Delete post?</AlertDialogTitle>
           <AlertDialogDescription className="text-zinc-400">
             <strong className="text-white">&quot;{postTitle}&quot;</strong> will
             be permanently deleted. This action cannot be undone.
           </AlertDialogDescription>
-        </AlertDialoger>
+        </AlertDialog>
         {error && <p className="text-red-400 text-sm px-1">{error}</p>}
         <AlertDialogFooter>
           <AlertDialogCancel className="bg-white/5 border-white/10 text-zinc-300 hover:bg-white/10">
