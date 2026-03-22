@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/assets/styles/globals.css";
-import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
@@ -10,16 +9,55 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// ✅ Facebook Pixel ID from environment
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 
 export const metadata: Metadata = {
   title: {
-    template: `%s | ProStore`,
-    default: APP_NAME,
+    template: "%s | Keyversely",
+    default: "Keyversely LLC | Genuine Software Licenses at Affordable Prices",
   },
-  description: APP_DESCRIPTION,
-  metadataBase: new URL(SERVER_URL),
+  description:
+    "Buy genuine Windows, Microsoft Office, and antivirus activation keys at Keyversely. Instant email delivery, verified Microsoft Marketplace partner, 30-day money back guarantee.",
+  metadataBase: new URL("https://www.actualkeys.com"),
+  authors: [{ name: "Keyversely LLC", url: "https://www.actualkeys.com" }],
+  creator: "Keyversely LLC",
+  publisher: "Keyversely LLC",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://www.actualkeys.com",
+    siteName: "Keyversely — actualkeys.com",
+    title: "Keyversely LLC | Genuine Software Licenses at Affordable Prices",
+    description:
+      "Buy genuine Windows, Microsoft Office, and antivirus activation keys. Instant email delivery. Verified Microsoft partner.",
+    images: [
+      {
+        url: "https://www.actualkeys.com/og-home.png",
+        width: 1200,
+        height: 630,
+        alt: "Keyversely — Genuine Software Licenses",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@Bigblkey",
+    creator: "@Bigblkey",
+    title: "Keyversely LLC | Genuine Software Licenses at Affordable Prices",
+    description:
+      "Genuine Windows, Office, and antivirus keys. Instant delivery. Verified Microsoft partner.",
+    images: ["https://www.actualkeys.com/og-home.png"],
+  },
 };
 
 export default function RootLayout({
@@ -32,8 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* ===================================================== */}
-        {/* ✅ Google Analytics */}
+        {/* Google Analytics */}
         {isProduction && (
           <>
             <Script
@@ -55,8 +92,7 @@ export default function RootLayout({
           </>
         )}
 
-        {/* ===================================================== */}
-        {/* ✅ Facebook Pixel */}
+        {/* Facebook Pixel */}
         {isProduction && FB_PIXEL_ID && (
           <>
             <Script
@@ -89,8 +125,7 @@ export default function RootLayout({
           </>
         )}
 
-        {/* ===================================================== */}
-        {/* ✅ Ahrefs Analytics */}
+        {/* Ahrefs Analytics */}
         {isProduction && (
           <Script
             src="https://analytics.ahrefs.com/analytics.js"
@@ -99,7 +134,6 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         )}
-        {/* ===================================================== */}
       </head>
 
       <body className={`${inter.className} antialiased`}>
