@@ -1,20 +1,18 @@
-// app/components/Footer.tsx
 import Link from "next/link";
 
 const LINKS = [
-  { href: "/about", label: "About Us" },
+  { href: "/about-us", label: "About Us" },
   { href: "/terms-of-service", label: "Terms of Service" },
   { href: "/privacy-policy", label: "Privacy Policy" },
   { href: "/help-center", label: "Help Center" },
   { href: "/refund-policy", label: "Refund Policy" },
-  { href: "/contact", label: "Contact Us" },
-  { href: "/shipping-delivery-policy", label: "shipping Delivery Policy" },
   { href: "/return-policy", label: "Return Policy" },
+  { href: "/shipping-delivery", label: "Shipping & Delivery" },
+  { href: "/contact-us", label: "Contact Us" },
 ];
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const APP_NAME = "Bigbl"; // ← put your actual app name here
 
   return (
     <footer className="border-t">
@@ -30,8 +28,7 @@ const Footer = () => {
         ))}
       </div>
       <div className="p-5 flex-center text-xs text-gray-500">
-        Developed By Bigbl © {currentYear} {APP_NAME}. All Rights
-        Reserved.vdvdiiihiheihi
+        Keyversely LLC © {currentYear} actualkeys.com. All Rights Reserved.
       </div>
     </footer>
   );

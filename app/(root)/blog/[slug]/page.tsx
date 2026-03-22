@@ -1,4 +1,3 @@
-import { Product } from "@/types";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -7,6 +6,8 @@ import { Clock, ArrowLeft, ArrowRight, Tag } from "lucide-react";
 import { getPostBySlug, getRelatedPosts } from "@/lib/actions/blog.actions";
 import { BlogPostCard } from "@/components/blog/blog-post-card";
 import { prisma } from "@/db/prisma";
+
+const BASE_URL = "https://www.actualkeys.com";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -38,35 +39,46 @@ function formatDate(date: Date) {
   }).format(new Date(date));
 }
 
+// ── Metadata ──────────────────────────────────────────────────
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Post Not Found" };
 
-  const postUrl = `https://bigbl.com/blog/${post.slug}`;
+  const url = `${BASE_URL}/blog/${post.slug}`;
+  const images = post.coverImage
+    ? [{ url: post.coverImage, alt: post.title }]
+    : [];
 
   return {
-    title: `${post.title} | Bigbl Blog`,
+    title: `${post.title} | Keyversely Blog`,
     description: post.excerpt,
+    alternates: { canonical: url },
+    robots: { index: true, follow: true },
     openGraph: {
+      type: "article",
+      url,
       title: post.title,
       description: post.excerpt,
-      url: postUrl,
-      type: "article",
-      images: post.coverImage
-        ? [{ url: post.coverImage, alt: post.title }]
-        : [],
+      images,
+      siteName: "Keyversely — actualkeys.com",
+      locale: "en_US",
+      publishedTime: post.createdAt.toISOString(),
+      modifiedTime: post.updatedAt.toISOString(),
+      authors: [post.author.name ?? "Keyversely"],
+      tags: post.tags.map((t) => t.name),
     },
     twitter: {
       card: "summary_large_image",
+      site: "@Bigblkey",
       title: post.title,
       description: post.excerpt,
       images: post.coverImage ? [post.coverImage] : [],
     },
-    robots: { index: true, follow: true },
   };
 }
 
+// ── Page ──────────────────────────────────────────────────────
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
@@ -74,7 +86,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   const relatedPosts = await getRelatedPosts(post.id, post.categoryId);
 
-  // --- Products from DB based on category ---
+  // Products from DB based on category
   let products: { id: string; name: string; slug: string }[] = [];
   try {
     products = await prisma.product.findMany({
@@ -95,19 +107,73 @@ export default async function BlogPostPage({ params }: Props) {
   const gradient = GRADIENTS[post.category.slug] ?? GRADIENTS.default;
   const icon = ICONS[post.category.slug] ?? ICONS.default;
 
-  const baseUrl = `https://bigbl.com/blog/${post.slug}`;
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    post.title,
-  )}&url=${encodeURIComponent(baseUrl)}`;
-  const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-    baseUrl,
-  )}`;
-  const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-    baseUrl,
-  )}`;
+  const postUrl = `${BASE_URL}/blog/${post.slug}`;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(postUrl)}`;
+  const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`;
+  const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
+
+  // ── BlogPosting JSON-LD ─────────────────────────────────────
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": postUrl,
+    headline: post.title,
+    description: post.excerpt,
+    url: postUrl,
+    image: post.coverImage ?? `${BASE_URL}/og-default.png`,
+    datePublished: post.createdAt.toISOString(),
+    dateModified: post.updatedAt.toISOString(),
+    inLanguage: "en-US",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": postUrl,
+    },
+    author: {
+      "@type": "Person",
+      name: post.author.name ?? "Keyversely Team",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Keyversely LLC",
+      url: BASE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${BASE_URL}/images/logo.svg`,
+        width: 200,
+        height: 60,
+      },
+    },
+    articleSection: post.category.name,
+    keywords: post.tags.map((t) => t.name).join(", "),
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Blog",
+          item: `${BASE_URL}/blog`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: post.category.name,
+          item: `${BASE_URL}/blog?category=${post.category.slug}`,
+        },
+        { "@type": "ListItem", position: 4, name: post.title, item: postUrl },
+      ],
+    },
+  };
 
   return (
     <div className="min-h-screen">
+      {/* JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
+
       {/* Hero */}
       <div
         className={`relative w-full h-48 md:h-64 bg-gradient-to-br ${gradient} overflow-hidden`}
@@ -310,30 +376,6 @@ export default async function BlogPostPage({ params }: Props) {
           </section>
         )}
       </div>
-
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            line: post.title,
-            image: post.coverImage,
-            author: { "@type": "Person", name: post.author.name },
-            publisher: {
-              "@type": "Organization",
-              name: "Bigbl",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://bigbl.com/logo.png",
-              },
-            },
-            datePublished: post.createdAt,
-            description: post.excerpt,
-          }),
-        }}
-      />
     </div>
   );
 }
