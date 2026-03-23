@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import FAQAccordion from "./components/FAQAccordion";
 import Footer from "@/components/footer";
 import Link from "next/link";
+import Header from "@/components/shared/header";
 
 export const metadata: Metadata = {
   title: "Help Center | Keyversely LLC",
@@ -481,7 +482,7 @@ export default function HelpCenterPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-
+      <Header />
       <main className="max-w-2xl mx-auto px-6 py-14">
         {/* Breadcrumb */}
         <nav

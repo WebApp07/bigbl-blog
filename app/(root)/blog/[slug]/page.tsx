@@ -26,7 +26,7 @@ const ICONS: Record<string, string> = {
   "microsoft-office": "/icons/office.svg",
   windows: "/icons/windows.png",
   security: "/icons/security.svg",
-  "how-to-guides": "/icons/how-to-guides.svg",
+  "how-to-guides": "/icons/how-to-guides.png",
   news: "/icons/news.svg",
   default: "/icons/default.svg",
 };

@@ -1,4 +1,5 @@
 import Footer from "@/components/footer";
+import Header from "@/components/shared/header";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -48,6 +49,7 @@ export default function ShippingDeliveryPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
+      <Header />
       <main className="max-w-2xl mx-auto px-6 py-14">
         <nav
           aria-label="Breadcrumb"
