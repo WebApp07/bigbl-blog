@@ -1,101 +1,185 @@
-"use client";
+// components/ReviewsSection.tsx
+// Server component — pulls real reviews directly from DB
+// Replaces the hardcoded fake review component
 
-import { FC } from "react";
-import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
-import { FaStar, FaRegStar } from "react-icons/fa";
-import "swiper/css";
-import "swiper/css/pagination";
+import { prisma } from "@/db/prisma";
+import { Star } from "lucide-react";
 
-interface Review {
-  name: string;
-  review: string;
-  image: string;
-  rating: number;
-}
-
-const reviews: Review[] = [
+const trustBadges = [
   {
-    name: "Domenic Primiani.",
-    review:
-      "The product and the price are unbeatable. Received great tech support to help install the software on my laptop. Excellent job..! Highly recommend them.!",
-    image: "/images/user1.png",
-    rating: 5,
+    src: "/badges/google-safe.png",
+    alt: "Google Safe",
+    label: "Google Protected",
   },
   {
-    name: "Lee Douthwaite.",
-    review:
-      "Had issues with downloading Adobe Pro—no fault of MM3. David at MM3 went all out to help us and solved the issue within 10 minutes. Great service. Will definitely purchase again.",
-    image: "/images/user2.png",
-    rating: 5,
+    src: "/badges/ssl-certificate.png",
+    alt: "SSL Secure",
+    label: "SSL Secure Checkout",
   },
-  {
-    name: "Alan Naylor.",
-    review:
-      "Great company. On hand via email for any problems. Quick and helpful responses. Would definitely recommend.",
-    image: "/images/user3.png",
-    rating: 5,
-  },
-  {
-    name: "Alan Naylor.",
-    review:
-      "Fantastic products and fast delivery via email. Fast response for some installation issues I had. Swiftly resolved. Highly recommend.",
-    image: "/images/user4.png",
-    rating: 5,
-  },
+  { src: "/badges/paypal.png", alt: "PayPal", label: "PayPal Verified" },
+  { src: "/badges/guarantee.png", alt: "Guarantee", label: "100% Guarantee" },
 ];
 
-const ReviewsSection: FC = () => {
+function StarRow({ rating }: { rating: number }) {
   return (
-    <section className="py-20 bg-gradient-to-b from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="max-w-4xl mx-auto px-6">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-800 dark:text-white">
-          What Our Customers Say
-        </h2>
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          spaceBetween={30}
-          slidesPerView={1}
-          autoplay={{ delay: 5000 }}
-          pagination={{ clickable: true }}
-          loop={true}
-        >
-          {reviews.map((review, index) => (
-            <SwiperSlide key={index}>
-              <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl dark:shadow-2xl flex flex-col items-center text-center transition-all">
-                <Image
-                  src={review.image}
-                  alt={review.name}
-                  width={80}
-                  height={80}
-                  className="rounded-full object-cover mb-6"
-                />
-                <div className="flex mb-4">
-                  {Array.from({ length: 5 }, (_, i) =>
-                    i < review.rating ? (
-                      <FaStar key={i} className="text-yellow-400 w-5 h-5" />
-                    ) : (
-                      <FaRegStar
-                        key={i}
-                        className="text-gray-300 dark:text-gray-600 w-5 h-5"
-                      />
-                    )
-                  )}
-                </div>
-                <p className="text-gray-600 dark:text-gray-300 italic mb-6">
-                  {review.review}
-                </p>
-                <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                  {review.name}
-                </h4>
+    <div className="flex gap-0.5 mb-2" aria-label={`${rating} out of 5 stars`}>
+      {Array.from({ length: 5 }, (_, i) => (
+        <Star
+          key={i}
+          size={14}
+          className={
+            i < rating
+              ? "fill-yellow-400 text-yellow-400"
+              : "fill-muted text-muted"
+          }
+        />
+      ))}
+    </div>
+  );
+}
+
+function anonymize(name: string) {
+  return name
+    .split(" ")
+    .map((p, i) => (i === 0 ? p : `${p[0]}.`))
+    .join(" ");
+}
+
+async function getHomepageReviews() {
+  return prisma.review.findMany({
+    where: { isVerifiedPurchase: true },
+    orderBy: [{ rating: "desc" }, { createdAt: "desc" }],
+    take: 6,
+    include: {
+      user: { select: { name: true } },
+      product: { select: { name: true } },
+    },
+  });
+}
+
+async function getStats() {
+  const result = await prisma.review.aggregate({
+    _avg: { rating: true },
+    _count: { id: true },
+  });
+  return {
+    avg: Math.round((result._avg.rating ?? 0) * 10) / 10,
+    count: result._count.id,
+  };
+}
+
+export default async function ReviewsSection() {
+  const [reviews, stats] = await Promise.all([
+    getHomepageReviews(),
+    getStats(),
+  ]);
+
+  if (reviews.length === 0) return null;
+
+  return (
+    <section className="py-16 px-6 bg-background text-foreground">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-primary mb-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/5">
+            Reviews
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-foreground">
+            Trusted by Customers Worldwide
+          </h2>
+
+          {/* Aggregate score */}
+          <div className="flex items-center justify-center gap-3 mt-4">
+            <span className="text-5xl font-bold text-foreground">
+              {stats.avg.toFixed(1)}
+            </span>
+            <div className="text-left">
+              <div className="flex gap-0.5">
+                {Array.from({ length: 5 }, (_, i) => (
+                  <Star
+                    key={i}
+                    size={20}
+                    className={
+                      i < Math.round(stats.avg)
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "fill-muted text-muted"
+                    }
+                  />
+                ))}
               </div>
-            </SwiperSlide>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                Based on {stats.count} verified review
+                {stats.count !== 1 ? "s" : ""}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Trust badges */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-12">
+          {trustBadges.map((badge) => (
+            <div key={badge.alt} className="flex flex-col items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={badge.src}
+                alt={badge.alt}
+                width={48}
+                height={48}
+                className="object-contain"
+              />
+              <p className="text-sm font-medium text-foreground">
+                {badge.label}
+              </p>
+            </div>
           ))}
-        </Swiper>
+        </div>
+
+        {/* Reviews grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+          {reviews.map((review) => (
+            <div
+              key={review.id}
+              className="bg-muted/40 border border-border p-5 rounded-xl hover:border-primary/30 transition-colors"
+            >
+              <StarRow rating={review.rating} />
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                "{review.description}"
+              </p>
+              <div className="flex items-center justify-between text-xs text-muted-foreground border-t border-border pt-3 mt-auto">
+                <span className="font-semibold text-foreground">
+                  {anonymize(review.user.name)}
+                </span>
+                <span className="text-muted-foreground/70">
+                  {review.product.name.split(" ").slice(0, 3).join(" ")}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-10">
+          <a
+            href="/reviews"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border border-border text-sm font-semibold text-foreground hover:bg-muted/50 transition-colors"
+          >
+            See all reviews →
+          </a>
+        </div>
+
+        {/* Google Safe note */}
+        <p className="text-xs text-muted-foreground text-center mt-8">
+          Verified &amp; monitored by{" "}
+          <a
+            href="https://transparencyreport.google.com/safe-browsing/search?url=https://www.actualkeys.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-primary transition-colors"
+          >
+            Google Safe Browsing
+          </a>
+        </p>
       </div>
     </section>
   );
-};
-
-export default ReviewsSection;
+}
