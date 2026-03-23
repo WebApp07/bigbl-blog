@@ -167,6 +167,8 @@ const Home = async () => {
         <ViewAllProductsButton />
       </div>
 
+      {/* 
+
       <section className="mb-16">
         <SafeBrowsingTrust />
       </section>
@@ -174,6 +176,8 @@ const Home = async () => {
       <section className="mb-16">
         <DealCountdown />
       </section>
+
+      */}
 
       <section className="mb-16">
         <ReviewsSection />
