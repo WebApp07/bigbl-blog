@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { BookOpen, Rss } from "lucide-react";
 import {
   getPublishedPosts,
@@ -13,10 +13,75 @@ import {
 import { CategoryFilter } from "@/components/blog/category-filter";
 import { BlogPagination } from "@/components/blog/blog-pagination";
 
+const BASE_URL = "https://www.actualkeys.com";
+
+// ── Metadata ──────────────────────────────────────────────────
 export const metadata: Metadata = {
-  title: "Blog – Tips, Guides & Software News | Bigbl",
+  title: "Blog | Software Guides, Windows Tips & Office Tutorials — Keyversely",
   description:
-    "Expert guides on software licenses, Windows tips, Office tutorials, and digital security.",
+    "Expert guides on software licenses, Windows activation, Microsoft Office tutorials, and digital security. Learn how to get the most from your software.",
+  alternates: { canonical: `${BASE_URL}/blog` },
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    url: `${BASE_URL}/blog`,
+    title:
+      "Blog | Software Guides, Windows Tips & Office Tutorials — Keyversely",
+    description:
+      "Expert guides on software licenses, Windows activation, Microsoft Office tutorials, and digital security.",
+    siteName: "Keyversely — actualkeys.com",
+    locale: "en_US",
+    images: [
+      {
+        url: `${BASE_URL}/og-home.png`,
+        width: 1200,
+        height: 630,
+        alt: "Keyversely Blog",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@Bigblkey",
+    title:
+      "Blog | Software Guides, Windows Tips & Office Tutorials — Keyversely",
+    description:
+      "Expert guides on software licenses, Windows activation, and Microsoft Office tutorials.",
+    images: [`${BASE_URL}/og-home.png`],
+  },
+};
+
+// ── JSON-LD ───────────────────────────────────────────────────
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "@id": `${BASE_URL}/blog`,
+  name: "Keyversely Blog",
+  description:
+    "Expert guides on software licenses, Windows activation, Microsoft Office tutorials, and digital security.",
+  url: `${BASE_URL}/blog`,
+  inLanguage: "en-US",
+  publisher: {
+    "@type": "Organization",
+    name: "Keyversely LLC",
+    url: BASE_URL,
+    logo: {
+      "@type": "ImageObject",
+      url: `${BASE_URL}/images/logo.svg`,
+    },
+  },
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `${BASE_URL}/blog`,
+      },
+    ],
+  },
 };
 
 interface Props {
@@ -37,15 +102,21 @@ export default async function BlogPage({ searchParams }: Props) {
 
   return (
     <div className="min-h-screen">
+      {/* JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
+
       {/* Hero */}
       <section className="relative pt-10 pb-10 px-4 text-center overflow-hidden border-b">
         <div className="relative">
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/25 text-primary text-[11px] font-bold tracking-[0.12em] uppercase px-4 py-1.5 rounded-full mb-6">
             <Rss className="w-3 h-3" />
-            Resources & Guides
+            Resources &amp; Guides
           </div>
           <h1 className="text-4xl md:text-5xl font-bold leading-[1.15] mb-5">
-            The Bigbl Blog
+            The Keyversely Blog
           </h1>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto leading-relaxed">
             Expert guides on software licenses, Windows tips, Office tutorials,
@@ -104,7 +175,9 @@ export default async function BlogPage({ searchParams }: Props) {
       <section className="border-t">
         <div className="max-w-6xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h3 className="text-2xl font-bold mb-1">Stay in the loop</h3>
+            <h3 className="text-2xl font-bold mb-1 text-foreground">
+              Stay in the loop
+            </h3>
             <p className="text-muted-foreground text-sm">
               New guides, deals, and tips — straight to your inbox. No spam.
             </p>
@@ -113,7 +186,7 @@ export default async function BlogPage({ searchParams }: Props) {
             <input
               type="email"
               placeholder="you@example.com"
-              className="flex-1 md:w-64 border rounded-xl px-4 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/40 transition-colors"
+              className="flex-1 md:w-64 border border-border rounded-xl px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition-colors"
             />
             <button
               type="submit"

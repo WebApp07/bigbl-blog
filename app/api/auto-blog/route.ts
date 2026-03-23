@@ -8,6 +8,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const result = await runAutoBlog();
+  const result = await runAutoBlog(3);
   return NextResponse.json(result);
 }
